@@ -1,16 +1,432 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Website</title>
-  <style>
-    body { font-family: sans-serif; max-width: 800px; margin: 60px auto; padding: 0 20px; }
-    h1 { color: #333; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jaia Colognese</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --rose:     #f5e6e0;
+    --rose-mid: #e8cfc7;
+    --cream:    #fdf7f4;
+    --red:      #9b2335;
+    --red-soft: #c04a5a;
+    --brown:    #5c3a2e;
+    --text:     #3a2420;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 64px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--rose-mid);
+  }
+  .nav-logo {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.25rem; color: var(--red);
+    letter-spacing: 0.04em; text-decoration: none; cursor: pointer;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 0.82rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--brown);
+    text-decoration: none; cursor: pointer; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--red); }
+
+  /* PAGES */
+  .page { display: none; padding-top: 74px; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* SHARED */
+  .divider { width: 48px; height: 1px; background: var(--red-soft); margin: 28px 0; }
+  .eyebrow {
+    font-size: 0.78rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--red-soft); margin-bottom: 18px;
+  }
+  .btn {
+    display: inline-block; padding: 11px 32px;
+    border: 1px solid var(--red); color: var(--red);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.82rem; letter-spacing: 0.15em;
+    text-transform: uppercase; text-decoration: none;
+    transition: all 0.2s; cursor: pointer; background: transparent; margin-top: 32px;
+  }
+  .btn:hover { background: var(--red); color: var(--cream); }
+  footer {
+    text-align: center; padding: 40px 24px;
+    background: var(--rose); font-size: 0.82rem;
+    color: var(--brown); letter-spacing: 0.06em;
+    border-top: 1px solid var(--rose-mid); margin-top: 0;
+  }
+  footer .footer-name {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.15rem; color: var(--red);
+    display: block; margin-bottom: 6px;
+  }
+
+  /* HOME */
+  .home-hero { padding: 100px 64px 80px; max-width: 720px; }
+  .home-hero h1 {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(3rem, 6vw, 5rem); color: var(--red);
+    line-height: 1.05; margin-bottom: 24px;
+  }
+  .home-hero .tagline {
+    font-size: 1.2rem; font-style: italic;
+    color: var(--brown); font-weight: 300; margin-bottom: 12px;
+  }
+  .home-hero .desc {
+    font-size: 1rem; color: var(--brown);
+    max-width: 520px; line-height: 1.85;
+  }
+  .home-band {
+    background: var(--rose); padding: 64px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px;
+    border-top: 1px solid var(--rose-mid); border-bottom: 1px solid var(--rose-mid);
+  }
+  .home-band-item h3 {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.4rem; color: var(--red); margin-bottom: 10px;
+  }
+  .home-band-item p { font-size: 0.95rem; color: var(--brown); font-style: italic; line-height: 1.75; }
+  .home-quote { padding: 80px 64px; max-width: 800px; margin: 0 auto; text-align: center; }
+  .home-quote blockquote {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem); color: var(--red);
+    line-height: 1.5; font-style: italic; margin-bottom: 24px;
+  }
+  .home-quote cite {
+    font-size: 0.82rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--red-soft); font-style: normal;
+  }
+
+  /* ABOUT */
+  .about-wrap {
+    display: grid; grid-template-columns: 1fr 2fr;
+    gap: 80px; padding: 80px 64px; align-items: start;
+  }
+  .about-sidebar h1 {
+    font-family: 'IM Fell English', serif;
+    font-size: 2.6rem; color: var(--red); line-height: 1.1; margin-bottom: 16px;
+  }
+  .about-sidebar .subtitle { font-style: italic; color: var(--red-soft); font-size: 0.95rem; line-height: 1.7; }
+  .about-body p { color: var(--brown); font-size: 1.05rem; margin-bottom: 22px; line-height: 1.9; }
+  .about-placeholder {
+    background: var(--rose); padding: 28px 32px;
+    border-left: 3px solid var(--red-soft);
+    font-style: italic; color: var(--brown);
+    font-size: 1rem; margin-bottom: 22px; line-height: 1.8;
+  }
+  .about-placeholder strong { font-style: normal; color: var(--red); display: block; margin-bottom: 6px; }
+  .about-pillars {
+    background: var(--rose); padding: 64px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 48px; text-align: center;
+    border-top: 1px solid var(--rose-mid);
+  }
+  .about-pillars h3 { font-family: 'IM Fell English', serif; font-size: 1.4rem; color: var(--red); margin-bottom: 10px; }
+  .about-pillars p { font-style: italic; color: var(--brown); font-size: 0.9rem; }
+  .pillar + .pillar { border-left: 1px solid var(--rose-mid); }
+
+  /* SERVICES */
+  .services-header { padding: 80px 64px 56px; border-bottom: 1px solid var(--rose-mid); }
+  .services-header h1 {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem); color: var(--red); margin-bottom: 16px;
+  }
+  .services-header p { font-style: italic; color: var(--brown); font-size: 1.05rem; max-width: 560px; }
+  .services-list { padding: 0 64px; }
+  .service-row {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 40px; align-items: start;
+    padding: 56px 0; border-bottom: 1px solid var(--rose-mid);
+  }
+  .service-row:last-child { border-bottom: none; }
+  .service-num { font-family: 'IM Fell English', serif; font-size: 2.8rem; color: var(--rose-mid); line-height: 1; }
+  .service-content h2 { font-family: 'IM Fell English', serif; font-size: 1.7rem; color: var(--red); margin-bottom: 12px; }
+  .service-content p { color: var(--brown); font-size: 1rem; line-height: 1.85; max-width: 640px; }
+  .coming-soon {
+    display: inline-block; margin-top: 14px;
+    font-size: 0.72rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--red-soft);
+    border: 1px solid var(--rose-mid); padding: 4px 12px;
+  }
+  .services-cta {
+    background: var(--rose); padding: 72px 64px;
+    text-align: center; border-top: 1px solid var(--rose-mid);
+  }
+  .services-cta h2 { font-family: 'IM Fell English', serif; font-size: 2rem; color: var(--red); margin-bottom: 14px; }
+  .services-cta p { font-style: italic; color: var(--brown); font-size: 1rem; }
+
+  /* CONTACT */
+  .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 74px); }
+  .contact-left {
+    padding: 80px 64px; background: var(--rose);
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--rose-mid);
+  }
+  .contact-left h1 { font-family: 'IM Fell English', serif; font-size: 2.8rem; color: var(--red); margin-bottom: 16px; line-height: 1.1; }
+  .contact-left .subtitle { font-style: italic; color: var(--brown); font-size: 1.05rem; margin-bottom: 40px; }
+  .contact-detail { margin-bottom: 14px; font-size: 0.95rem; color: var(--brown); }
+  .contact-detail strong { color: var(--red); font-weight: 500; display: block; }
+  .contact-detail a { color: var(--red); text-decoration: none; }
+  .contact-note { margin-top: 36px; font-style: italic; font-size: 0.88rem; color: var(--red-soft); line-height: 1.7; }
+  .contact-right { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
+  .form-field { margin-bottom: 24px; }
+  .form-field label {
+    display: block; font-size: 0.75rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--red-soft); margin-bottom: 8px;
+  }
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    width: 100%; padding: 12px 16px;
+    border: 1px solid var(--rose-mid); background: var(--rose);
+    color: var(--text); font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; outline: none; transition: border-color 0.2s;
+    appearance: none; border-radius: 0;
+  }
+  .form-field input:focus,
+  .form-field textarea:focus,
+  .form-field select:focus { border-color: var(--red-soft); background: var(--cream); }
+  .form-field textarea { height: 120px; resize: vertical; }
+  .submit-btn {
+    padding: 13px 40px; background: var(--red); color: var(--cream);
+    border: none; font-family: 'Cormorant Garamond', serif;
+    font-size: 0.88rem; letter-spacing: 0.18em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; margin-top: 8px;
+  }
+  .submit-btn:hover { background: var(--brown); }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 20px; }
+    .home-hero { padding: 60px 24px 48px; }
+    .home-band { grid-template-columns: 1fr; padding: 40px 24px; gap: 32px; }
+    .home-quote { padding: 48px 24px; }
+    .about-wrap { grid-template-columns: 1fr; padding: 48px 24px; gap: 32px; }
+    .about-pillars { grid-template-columns: 1fr; padding: 40px 24px; gap: 32px; }
+    .pillar + .pillar { border-left: none; border-top: 1px solid var(--rose-mid); padding-top: 32px; }
+    .services-header { padding: 48px 24px 40px; }
+    .services-list { padding: 0 24px; }
+    .service-row { grid-template-columns: 1fr; gap: 8px; }
+    .services-cta { padding: 48px 24px; }
+    .contact-wrap { grid-template-columns: 1fr; }
+    .contact-left, .contact-right { padding: 48px 24px; }
+  }
+</style>
 </head>
 <body>
-  <h1>Hello, World!</h1>
-  <p>Welcome to my website.</p>
+
+<nav>
+  <span class="nav-logo" onclick="showPage('home')">Jaia Colognese</span>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')">Home</a></li>
+    <li><a onclick="showPage('about')">About</a></li>
+    <li><a onclick="showPage('services')">Services</a></li>
+    <li><a onclick="showPage('contact')">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="home-hero">
+    <p class="eyebrow">Private Chef · Postpartum Nourishment</p>
+    <h1>Jaia<br/>Colognese</h1>
+    <div class="divider"></div>
+    <p class="tagline">Feeding families from the inside out.</p>
+    <p class="desc">Wholesome, beautiful meals crafted with care for new mothers, families, and intimate gatherings — rooted in seasonal ingredients and the belief that food is medicine.</p>
+    <a class="btn" onclick="showPage('services')">Explore Services</a>
+  </div>
+
+  <div class="home-band">
+    <div class="home-band-item">
+      <h3>Postpartum Cooking</h3>
+      <p>Nourishing meals designed to heal, restore, and support new mothers through the sacred fourth trimester.</p>
+    </div>
+    <div class="home-band-item">
+      <h3>Private Chef</h3>
+      <p>Seasonal menus, intimate dinners, and weekly meal service brought directly to your home.</p>
+    </div>
+    <div class="home-band-item">
+      <h3>Doula Care</h3>
+      <p>Holistic birth and postpartum support — weaving nourishment with hands-on presence. Coming soon.</p>
+    </div>
+  </div>
+
+  <div class="home-quote">
+    <blockquote>"The postpartum period is sacred. New mothers deserve meals that restore, replenish, and remind them they are held."</blockquote>
+    <cite>— Jaia Colognese</cite>
+    <br/>
+    <a class="btn" onclick="showPage('about')">Meet Jaia</a>
+  </div>
+
+  <footer>
+    <span class="footer-name">Jaia Colognese</span>
+    Private Chef · Postpartum Nourishment · Berkeley, CA
+  </footer>
+</div>
+
+<!-- ABOUT -->
+<div id="page-about" class="page">
+  <div class="about-wrap">
+    <div class="about-sidebar">
+      <p class="eyebrow">About</p>
+      <h1>Hello,<br/>I'm Jaia.</h1>
+      <div class="divider"></div>
+      <p class="subtitle">Private Chef<br/>Postpartum Nourishment Specialist<br/>Doula &amp; Yoga Teacher</p>
+    </div>
+    <div class="about-body">
+      <p>I believe food is one of the most profound forms of care we can offer one another. My work lives at the intersection of culinary craft and deep nourishment — especially during the vulnerable, transformative season of new parenthood.</p>
+      <p>Trained in professional kitchens and drawn equally to the intimacy of home cooking, I bring a chef's precision and a caregiver's warmth to every meal I prepare. My postpartum cooking is rooted in whole, seasonal ingredients that support healing, milk production, and the emotional demands of early motherhood.</p>
+      <div class="about-placeholder">
+        <strong>Your story here.</strong>
+        This is a space for your own words — where you trained, what drives your passion for postpartum care, your personal connection to birth and food, and anything else that feels true to who you are. Replace this when you're ready.
+      </div>
+      <a class="btn" onclick="showPage('contact')">Work With Me</a>
+    </div>
+  </div>
+
+  <div class="about-pillars">
+    <div class="pillar">
+      <h3>Postpartum</h3>
+      <p>Meals that restore and replenish during the fourth trimester</p>
+    </div>
+    <div class="pillar">
+      <h3>Private Chef</h3>
+      <p>Seasonal, intentional cooking for families and gatherings</p>
+    </div>
+    <div class="pillar">
+      <h3>Doula &amp; Yoga</h3>
+      <p>Holistic presence for birth, recovery, and everyday wellbeing</p>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-name">Jaia Colognese</span>
+    Private Chef · Postpartum Nourishment · Berkeley, CA
+  </footer>
+</div>
+
+<!-- SERVICES -->
+<div id="page-services" class="page">
+  <div class="services-header">
+    <p class="eyebrow">What I offer</p>
+    <h1>Services</h1>
+    <p>Rooted in care, crafted with intention. Every offering is designed to nourish body and soul.</p>
+  </div>
+
+  <div class="services-list">
+    <div class="service-row">
+      <div class="service-num">01</div>
+      <div class="service-content">
+        <h2>Postpartum Meal Service</h2>
+        <p>Weekly or bi-weekly in-home cooking tailored specifically for new mothers and their families. Nourishing broths, iron-rich dishes, lactation-supporting meals, and warming sweets — all made from seasonal, whole ingredients. Designed to support recovery, energy, and the profound work of early parenthood.</p>
+      </div>
+    </div>
+    <div class="service-row">
+      <div class="service-num">02</div>
+      <div class="service-content">
+        <h2>Private Chef Services</h2>
+        <p>Intimate dinner parties, special celebrations, or weekly family meal prep. Whether you're hosting guests or simply want delicious, thoughtful food waiting for you at home, I bring the craft of a professional kitchen directly to your table — with a seasonal menu designed just for you.</p>
+      </div>
+    </div>
+    <div class="service-row">
+      <div class="service-num">03</div>
+      <div class="service-content">
+        <h2>Postpartum Doula Care</h2>
+        <p>Holistic support for the fourth trimester — emotional, physical, and practical. Combining my culinary background with dedicated postpartum presence, this offering brings nourishment and hands-on care together for the whole family.</p>
+        <span class="coming-soon">Coming Soon</span>
+      </div>
+    </div>
+    <div class="service-row">
+      <div class="service-num">04</div>
+      <div class="service-content">
+        <h2>Yoga &amp; Wellness</h2>
+        <p>Movement, breath, and stillness offered as a complement to postpartum healing and everyday wellbeing. My yoga practice weaves through everything I do — a reminder that nourishment lives in the body as much as on the plate.</p>
+        <span class="coming-soon">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-cta">
+    <h2>Ready to work together?</h2>
+    <p>Every family's needs are different. Reach out and we'll create something just right for you.</p>
+    <a class="btn" onclick="showPage('contact')">Get in Touch</a>
+  </div>
+
+  <footer>
+    <span class="footer-name">Jaia Colognese</span>
+    Private Chef · Postpartum Nourishment · Berkeley, CA
+  </footer>
+</div>
+
+<!-- CONTACT -->
+<div id="page-contact" class="page">
+  <div class="contact-wrap">
+    <div class="contact-left">
+      <p class="eyebrow">Get in touch</p>
+      <h1>Let's<br/>Connect.</h1>
+      <div class="divider"></div>
+      <p class="subtitle">Tell me a little about what you're looking for and I'll be in touch soon.</p>
+      <p class="contact-detail"><strong>Location</strong>Berkeley, CA</p>
+      <p class="contact-detail"><strong>Email</strong><a href="mailto:hello@jaiacolognese.com">hello@jaiacolognese.com</a></p>
+      <p class="contact-note">I typically respond within 24–48 hours. I'd love to hear from you.</p>
+    </div>
+    <div class="contact-right">
+      <div class="form-field">
+        <label>Your Name</label>
+        <input type="text" placeholder="First & last name"/>
+      </div>
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" placeholder="your@email.com"/>
+      </div>
+      <div class="form-field">
+        <label>I'm interested in</label>
+        <select>
+          <option value="">Select a service…</option>
+          <option>Postpartum Meal Service</option>
+          <option>Private Chef Services</option>
+          <option>Postpartum Doula Care</option>
+          <option>Yoga &amp; Wellness</option>
+          <option>Something else</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Tell me more</label>
+        <textarea placeholder="A little about your situation, timeline, and what you're hoping for…"></textarea>
+      </div>
+      <button class="submit-btn" onclick="alert('Thank you! Jaia will be in touch soon.')">Send Message</button>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-name">Jaia Colognese</span>
+    Private Chef · Postpartum Nourishment · Berkeley, CA
+  </footer>
+</div>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
 </body>
 </html>
